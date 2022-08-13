@@ -444,7 +444,7 @@ MonoBehaviour:
   isNormalized: 1
   _animator: {fileID: 423517426}
   _animatorHands: {fileID: 1078019248}
-  _handsSpriteRenderer: {fileID: 0}
+  _handsSpriteRenderer: {fileID: 1078019249}
 --- !u!58 &719370394
 CircleCollider2D:
   m_ObjectHideFlags: 0

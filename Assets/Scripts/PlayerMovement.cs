@@ -9,7 +9,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private bool isNormalized = true;
     private Rigidbody2D rb;
     [SerializeField] private Animator _animator, _animatorHands;
-    [SerializeField] private SpriteRenderer  handsSpriteRenderer;
+    [SerializeField] private SpriteRenderer  _handsSpriteRenderer;
     private const string canMove = "canMove";
     private const string moveX = "moveX";
     private const string moveY = "moveY";
@@ -30,7 +30,8 @@ public class PlayerMovement : MonoBehaviour
             _animatorHands.SetBool(canMove, true);
             MoveCharacter(movement);
         }
-        else{
+        else
+        {
             _animator.SetBool(canMove, false);
             _animatorHands.SetBool(canMove, false);
         }
@@ -42,11 +43,13 @@ public class PlayerMovement : MonoBehaviour
         _animator.SetFloat(moveY, movement.y);
         _animatorHands.SetFloat(moveX, movement.x);
         _animatorHands.SetFloat(moveY, movement.y);
-        if(movement.y>0&&movement.x==0){
-            handsSpriteRenderer.sortingOrder = 0;
+        if(movement.y > 0 && movement.x == 0)
+        {
+            _handsSpriteRenderer.sortingOrder = 0;
         }
-        else{
-            handsSpriteRenderer.sortingOrder = 1;
+        else
+        {
+            _handsSpriteRenderer.sortingOrder = 1;
         }
         if (isNormalized)
             rb.MovePosition(rb.position + movement.normalized * speed * Time.fixedDeltaTime);

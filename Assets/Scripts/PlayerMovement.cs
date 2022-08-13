@@ -30,8 +30,7 @@ public class PlayerMovement : MonoBehaviour
             _animatorHands.SetBool(canMove, true);
             MoveCharacter(movement);
         }
-        else
-        {
+        else{
             _animator.SetBool(canMove, false);
             _animatorHands.SetBool(canMove, false);
         }
@@ -43,12 +42,10 @@ public class PlayerMovement : MonoBehaviour
         _animator.SetFloat(moveY, movement.y);
         _animatorHands.SetFloat(moveX, movement.x);
         _animatorHands.SetFloat(moveY, movement.y);
-        if(movement.y > 0 && movement.x == 0)
-        {
+        if(movement.y > 0 && movement.x == 0){
             _handsSpriteRenderer.sortingOrder = 0;
         }
-        else
-        {
+        else{
             _handsSpriteRenderer.sortingOrder = 1;
         }
         if (isNormalized)

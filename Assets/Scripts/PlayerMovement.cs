@@ -9,10 +9,11 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private bool isNormalized = true;
     private Rigidbody2D rb;
     [SerializeField] private Animator _animator, _animatorHands;
-    [SerializeField] private SpriteRenderer  _handsSpriteRenderer;
-    private const string canMove = "canMove";
-    private const string moveX = "moveX";
-    private const string moveY = "moveY";
+    public Vector2 movement;
+    public Vector2 dir;
+    [SerializeField] private float _timer;
+    public Transform obj;
+    private float currentTime = 0f;
 
     private void Start()
     { 
@@ -21,37 +22,38 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Vector2 movement = Vector2.zero;
-        movement.x = Input.GetAxisRaw("Horizontal");
-        movement.y = Input.GetAxisRaw("Vertical");
-        if (movement != Vector2.zero)
+        rb.velocity = Vector2.zero;
+        float moveY = 0;
+        float moveX = 0;
+        if (Input.GetKey(KeyCode.W))
         {
-            _animator.SetBool(canMove, true);
-            _animatorHands.SetBool(canMove, true);
-            MoveCharacter(movement);
+            moveY = 1f;
+        }        
+        if (Input.GetKey(KeyCode.S))
+        {
+            moveY = -1f;
+        }        
+        if (Input.GetKey(KeyCode.A))
+        {
+            moveX = -1f;
+        }        
+        if (Input.GetKey(KeyCode.D))
+        {
+            moveX = 1f;
         }
-        else{
-            _animator.SetBool(canMove, false);
-            _animatorHands.SetBool(canMove, false);
-        }
+        Vector2 moveDir = new Vector2(moveX, moveY).normalized;
+        rb.velocity = moveDir;
     }
+
 
     private void MoveCharacter(Vector2 movement)
     { 
-        _animator.SetFloat(moveX, movement.x);
-        _animator.SetFloat(moveY, movement.y);
-        _animatorHands.SetFloat(moveX, movement.x);
-        _animatorHands.SetFloat(moveY, movement.y);
-        if(movement.y > 0 && movement.x == 0){
-            _handsSpriteRenderer.sortingOrder = 0;
-        }
-        else{
-            _handsSpriteRenderer.sortingOrder = 1;
-        }
         if (isNormalized)
             rb.MovePosition(rb.position + movement.normalized * speed * Time.fixedDeltaTime);
         else
             rb.MovePosition(rb.position + movement * speed * Time.fixedDeltaTime);
+        rb.velocity = Vector3.zero;
 
     }
+
 }

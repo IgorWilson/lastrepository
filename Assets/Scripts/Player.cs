@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] private Transform _pointForSearching;
-    [HideInInspector] public Transform PointForSearching { get => _pointForSearching; private set => _pointForSearching = value; }
+    [SerializeField] private float moveSpeed;
+    private Rigidbody2D _rigidbody;
 
 }

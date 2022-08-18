@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class magician_script : MonoBehaviour
+public class Magician : MonoBehaviour
 {
     private double TimeTeleport = 0;
     Vector2 PlaceTeleportation;
@@ -20,7 +20,7 @@ public class magician_script : MonoBehaviour
     void Update()
     {
         if(TimeTeleport>0){
-            TimeTeleport-=Time.fixedDeltaTime;
+            TimeTeleport-=Time.deltaTime;
             
             if(TimeTeleport<=0){
                 this.gameObject.transform.position = PlaceTeleportation;

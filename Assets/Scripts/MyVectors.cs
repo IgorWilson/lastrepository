@@ -6,6 +6,13 @@ public class MyVectors : MonoBehaviour
 {
     const float PI = 3.1415926F;
 
+    public static Vector2 createVector2(float x, float y){
+        Vector2 it = Vector2.zero;
+        it.x = x;
+        it.y = y;
+        return it;
+    }
+
     public static float RotationAngleBetweenVectors(Vector2 a, Vector2 b){
         float angleInRadiansA = Mathf.Atan2(a.y, a.x);
         float angleInRadiansB = Mathf.Atan2(b.y, b.x);

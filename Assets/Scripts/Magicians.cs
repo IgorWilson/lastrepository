@@ -4,56 +4,62 @@ using UnityEngine;
 
 public class Magicians : MonoBehaviour
 {
-    [SerializeField] private Transform player;
+    [SerializeField] private Transform _player;
+    [SerializeField] private Transform _magician;
     const double EPS = 0.3;
     const float lenForTest = 4;
-    double timer = 5;
+    private double _timer = 5;
 
     void Start()
     {
     }
     
-    bool IsVectorGood(Vector2 vec)
+    bool IsVectorGood(Vector2 vec, Vector2 poz)
     {
-        return true;
+        return MyPhysics.MyRectangularReycast(poz.x, poz.y, 0.7F, 0.5F);
     }
 
     void Teleportation()
     {
-        int countChild = this.gameObject.transform.childCount;
+        Vector2 playerPosition = Vector2.zero;
+        playerPosition.x = _player.position.x;
+        playerPosition.y = _player.position.y;
+        int ukChild = 0, countChild = this.gameObject.transform.childCount;
         List<(float, Vector2)> vectors = new List<(float, Vector2)>();
-        for(int i = 0; i<100; ++i)
+        for(int i = 0; i<100&&ukChild<countChild; ++i)
         {
             Vector2 randomVector = MyVectors.CreateSingleVector();
-
+            if(!IsVectorGood(randomVector, playerPosition+randomVector*lenForTest))
+                continue;
             bool f = true;
             float corner = Mathf.Atan2(randomVector.y, randomVector.x);
             for(int j = 0; j<vectors.Count; ++j){
-                if(MyVectors.RotationAngleBetweenVectors(randomVector, vectors[j].Item2)<EPS||!IsVectorGood(randomVector))
+                if(MyVectors.RotationAngleBetweenVectors(randomVector, vectors[j].Item2)<EPS||!IsVectorGood(randomVector, playerPosition+randomVector*lenForTest))
                     f = false;
             }
-            if(f)
-                vectors.Add((corner, randomVector));
+            if(f){
+                Transform child = this.gameObject.transform.GetChild(ukChild);
+                ++ukChild;
+                child.GetComponent<Magician>().Teleportation(playerPosition+randomVector*lenForTest, 1+0.1*i);
+            }
         }
+    }
 
-        //vectors.Sort();
-        //Debug.Log(vectors.Count);
-        for(int i = 0; i<countChild; ++i)
-        {
-            Transform child = this.gameObject.transform.GetChild(i);
-            Vector2 positionTeleportation = Vector2.zero;
-            positionTeleportation.x = player.position.x+vectors[i].Item2.x*lenForTest;
-            positionTeleportation.y = player.position.y+vectors[i].Item2.y*lenForTest;
-            child.GetComponent<Magician>().Teleportation(positionTeleportation, 1+0.1*i);
+    void Generic(int count){
+        Vector2 positionBehindTheScenes = Vector2.zero;
+        positionBehindTheScenes.x = -1000;
+        positionBehindTheScenes.y = -1000;
+        for(int i = 0; i<count; ++i){
+            //Instantiate(_magician, positionBehindTheScenes);
         }
-
     }
 
     void Update()
     {
-        timer -= Time.deltaTime;
-        if(timer<0){
-            timer = 5;
+        Debug.Log(IsVectorGood(Vector2.zero, Camera.main.ScreenToWorldPoint(Input.mousePosition)));
+        _timer -= Time.deltaTime;
+        if(_timer<0){
+            _timer = 5;
             Teleportation();
         }
     }

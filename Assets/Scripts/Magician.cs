@@ -6,9 +6,15 @@ public class Magician : MonoBehaviour
 {
     private double TimeTeleport = 0;
     Vector2 PlaceTeleportation;
+    [SerializeField] private Transform player;
+
     void Start()
     {
         
+    }
+
+    void Shot(){
+
     }
 
     public void Teleportation(Vector2 vec, double t)

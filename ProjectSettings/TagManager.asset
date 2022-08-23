@@ -41,6 +41,15 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Spell behind
+    uniqueID: 4021859173
+    locked: 0
+  - name: Hands behind
+    uniqueID: 3837699043
+    locked: 0
   - name: Player
     uniqueID: 1291405929
+    locked: 0
+  - name: Enemy
+    uniqueID: 3783881819
     locked: 0

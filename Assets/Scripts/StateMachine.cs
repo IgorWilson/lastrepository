@@ -4,11 +4,19 @@ using UnityEngine;
 
 public class StateMachine : MonoBehaviour
 {
-    public IState CurrentState;
+    private IState _currentState;   
 
-    public void Initialize(IState startState, Direction direction)
+    public void Initialize(IState currentState, Direction direction)
     {
-        CurrentState = startState;
-        CurrentState.Enter(direction);
+        _currentState = currentState;
+        _currentState.Enter(direction);
+    }
+
+    public bool IsOppositeDirections(Direction a, Direction b)
+    {
+        return (a == Direction.Left && b == Direction.Right) ||
+               (a == Direction.Right && b == Direction.Left) ||
+               (a == Direction.Up && b == Direction.Down) ||
+               (a == Direction.Down && b == Direction.Up);
     }
 }

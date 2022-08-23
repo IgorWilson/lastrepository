@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(Player))]
 public class PlayerAnimationController : MonoBehaviour
 {
     [SerializeField] private List<AnimationInformation> _idleHeroAnimations;
@@ -12,7 +12,7 @@ public class PlayerAnimationController : MonoBehaviour
     [SerializeField] private List<AnimationInformation> _walkHandsAnimations;
     [SerializeField] private Animator _heroAnimator;
     [SerializeField] private Animator _handsAnimator;
-    private Rigidbody2D _rigidbody;
+
     private (Vector2 vector, Direction direction)[] _directionCircle =
     {
         (new Vector2(0, 1), Direction.Up),
@@ -20,22 +20,29 @@ public class PlayerAnimationController : MonoBehaviour
         (new Vector2(-1, 0), Direction.Left),
         (new Vector2(1, 0), Direction.Right)
     };
-        
-    private StateMachine _heroAnimationController;
-    private StateMachine _handsAnimationController;
+
     private (IState idle, IState walk) _heroStates;
     private (IState idle, IState walk) _handsStates;
-    private Vector2 direction;
+
+    private StateMachine _heroAnimationController;
+    private StateMachine _handsAnimationController;
+    private Player _player;
+
+    private Vector2 _direction;
+
+    private const int PositionDevitation = 15;
+
     private void Start()
     {
-        _rigidbody = GetComponent<Rigidbody2D>();
+        _player = GetComponent<Player>();
         _heroAnimationController = new StateMachine();
         _handsAnimationController = new StateMachine();
-        _heroStates.idle = new Idle(_heroAnimator);
-        _heroStates.walk = new Walk(_heroAnimator);        
-        _handsStates.idle = new Idle(_handsAnimator);
-        _handsStates.walk = new Walk(_handsAnimator);
-        direction = ((Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition) - _rigidbody.position).normalized;
+        _heroStates.idle = new State(_heroAnimator);
+        _heroStates.walk = new State(_heroAnimator);        
+        _handsStates.idle = new State(_handsAnimator);
+        _handsStates.walk = new State(_handsAnimator);
+        _direction = ((Vector2)Camera.main.ScreenToWorldPoint(Input.mousePosition) - GetComponent<Rigidbody2D>().position).normalized;
+
         foreach (var e in _idleHeroAnimations)
         {
             _heroStates.idle = _heroStates.idle.AddDirection(e.direction, e.clip);
@@ -56,8 +63,6 @@ public class PlayerAnimationController : MonoBehaviour
             _handsStates.walk = _handsStates.walk.AddDirection(e.direction, e.clip);
         }
     }
-
-
     private Direction FindNearestDirection(Vector2 vec)
     {
         (Vector2 vector, Direction direction) ans = _directionCircle[0];
@@ -71,9 +76,9 @@ public class PlayerAnimationController : MonoBehaviour
 
     private void Update()
     {
-        Vector2 movement = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        Vector2 movement = _player.Movement;
         TryToGetNewDirection();
-        Direction viewDirection = FindNearestDirection(direction);
+        Direction viewDirection = FindNearestDirection(_direction);
         Direction moveDirection = FindNearestDirection(movement);
         if (movement != Vector2.zero)
         {
@@ -99,9 +104,10 @@ public class PlayerAnimationController : MonoBehaviour
 
     private void TryToGetNewDirection()
     {
-        Vector2 newDirection = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position).normalized;
-        if (Vector3.Angle(newDirection, direction) > 15)
-            direction = newDirection;
+        Vector2 newDirection = _player.AnimationDirection;
+        //Debug.Log(Vector3.Angle(newDirection, _direction));
+        if (Vector3.Angle(newDirection, _direction) > PositionDevitation)
+            _direction = newDirection;
     }
 
     private bool IsOppositeDirections(Direction a, Direction b)

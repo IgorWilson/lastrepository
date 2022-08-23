@@ -559,7 +559,6 @@ GameObject:
   - component: {fileID: 564177986}
   - component: {fileID: 564177983}
   - component: {fileID: 564177984}
-  - component: {fileID: 564177988}
   - component: {fileID: 564177987}
   - component: {fileID: 564177985}
   m_Layer: 6
@@ -665,22 +664,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!58 &564177988
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 564177982}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 1.5557163}
-  serializedVersion: 2
-  m_Radius: 0.2903645
 --- !u!1 &641059921
 GameObject:
   m_ObjectHideFlags: 0
@@ -875,6 +858,8 @@ GameObject:
   - component: {fileID: 924261581}
   - component: {fileID: 924261582}
   - component: {fileID: 924261583}
+  - component: {fileID: 924261585}
+  - component: {fileID: 924261584}
   m_Layer: 0
   m_Name: sprite
   m_TagString: Untagged
@@ -994,6 +979,48 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 848254aa5f171ec4bbfcd17bdcaab876, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!58 &924261584
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 924261578}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.0043926835, y: 0.66766757}
+  serializedVersion: 2
+  m_Radius: 0.22101623
+--- !u!61 &924261585
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 924261578}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.0043923855, y: 0.057103157}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 4, y: 4}
+    newSize: {x: 4, y: 4}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1.5313859, y: 0.91642857}
+  m_EdgeRadius: 0
 --- !u!1 &1053902428
 GameObject:
   m_ObjectHideFlags: 0
@@ -1119,6 +1146,8 @@ MonoBehaviour:
   _bulletPrefab: {fileID: 7058675881164735741, guid: 67ee999802ac26843818fda82b034faf, type: 3}
   _placeForShooting: {fileID: 1846950008}
   _middle: {fileID: 1619482289}
+  _bulletSpeed: 3
+  shootingDistance: 20
 --- !u!4 &1053902433
 Transform:
   m_ObjectHideFlags: 0
